@@ -11,11 +11,19 @@ const Total = (props) => {
   )
 }
 
+const Part = (props) => {
+  return (
+    <p>{props.description} {props.exercises}</p>
+  )
+}
+
 const Content = (props) =>{
-  const renderedParts = []
-  props.parts.forEach(part => renderedParts.push(<p>{part.description} {part.exercises}</p>))
   return(
-    renderedParts
+    <div>
+      <Part description={props.parts[0].description} exercises={props.parts[0].exercises} />
+      <Part description={props.parts[1].description} exercises={props.parts[1].exercises} />
+      <Part description={props.parts[2].description} exercises={props.parts[2].exercises} />
+    </div>
   )
 }
 
