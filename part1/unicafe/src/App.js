@@ -4,12 +4,12 @@ const Display = ({text}) => <h1>{text}</h1>
 
 const Button = ({handleClick, text}) => <button onClick={handleClick}>{text}</button>
 
-const Statistic = ({value, text}) => <p>{text} {value}</p>
+const StatisticLine = ({value, text}) => <p>{text} {value}</p>
 
 const Statistics = ({statistics}) => {
   return (
     statistics.some(stat => stat.value > 0) 
-      ? statistics.map(statistic => <Statistic text={statistic.text} value={statistic.value} />) 
+      ? statistics.map(statistic => <StatisticLine text={statistic.text} value={statistic.value} />) 
       : 'No feedback given' 
   )
 }
