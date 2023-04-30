@@ -4,14 +4,26 @@ const Display = ({text}) => <h1>{text}</h1>
 
 const Button = ({handleClick, text}) => <button onClick={handleClick}>{text}</button>
 
-const StatisticLine = ({value, text}) => <p>{text} {value}</p>
+const StatisticLine = ({value, text}) => {
+  return(
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
+  )
+}
 
 const Statistics = ({statistics}) => {
-  return (
-    statistics.some(stat => stat.value > 0) 
-      ? statistics.map(statistic => <StatisticLine text={statistic.text} value={statistic.value} />) 
-      : 'No feedback given' 
-  )
+    if(statistics.some(stat => stat.value > 0) ){
+      return (
+        <table>
+          <tbody>
+          {statistics.map(statistic => <StatisticLine key={statistic.id} text={statistic.text} value={statistic.value} />)} 
+          </tbody>
+        </table>
+      )
+    }
+    return 'No feedback given'
 }
 
 const App = () => {
@@ -25,26 +37,32 @@ const App = () => {
 
   const statistics = [
     {
+      id: 1,
       value:good,
       text:'good'
     },
     {
+      id: 2,
       value:neutral,
       text:'neutral'
     },
     {
+      id: 3,
       value:bad,
       text:'bad'
     },
     {
+      id: 4,
       value:all,
       text:'all'
     },
     {
+      id: 5,
       value:average,
       text:'average'
     },
     {
+      id: 6,
       value:positive,
       text:'positive'
     }
