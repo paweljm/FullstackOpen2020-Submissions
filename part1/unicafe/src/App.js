@@ -6,6 +6,8 @@ const Button = ({handleClick, text}) => <button onClick={handleClick}>{text}</bu
 
 const Statistic = ({value, text}) => <p>{text} {value}</p>
 
+const Statistics = ({statistics}) => statistics.map(statistic => <Statistic text={statistic.text} value={statistic.value} />)
+
 const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
@@ -14,6 +16,34 @@ const App = () => {
   const all = good + neutral + bad
   const average = (good - bad) / all
   const positive = `${(good / all) * 100}%`
+
+  const statistics = [
+    {
+      value:good,
+      text:'good'
+    },
+    {
+      value:neutral,
+      text:'neutral'
+    },
+    {
+      value:bad,
+      text:'bad'
+    },
+    {
+      value:all,
+      text:'all'
+    },
+    {
+      value:average,
+      text:'average'
+    },
+    {
+      value:positive,
+      text:'positive'
+    }
+
+  ]
 
   console.log(good,neutral,bad)
 
@@ -24,12 +54,7 @@ const App = () => {
       <Button handleClick={() => setNeutral(neutral + 1)} text={'neutral'} />
       <Button handleClick={() => setBad(bad + 1)} text={'bad'} />
       <Display text='statistics' />
-      <Statistic value={good} text='good' />
-      <Statistic value={neutral} text='neutral' />
-      <Statistic value={bad} text='bad' />
-      <Statistic value={all} text='all' />
-      <Statistic value={average} text='average' />
-      <Statistic value={positive} text='positive' />
+      <Statistics statistics={statistics} />
     </div>
   )
 }
