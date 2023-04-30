@@ -6,7 +6,13 @@ const Button = ({handleClick, text}) => <button onClick={handleClick}>{text}</bu
 
 const Statistic = ({value, text}) => <p>{text} {value}</p>
 
-const Statistics = ({statistics}) => statistics.map(statistic => <Statistic text={statistic.text} value={statistic.value} />)
+const Statistics = ({statistics}) => {
+  return (
+    statistics.some(stat => stat.value > 0) 
+      ? statistics.map(statistic => <Statistic text={statistic.text} value={statistic.value} />) 
+      : 'No feedback given' 
+  )
+}
 
 const App = () => {
   const [good, setGood] = useState(0)
