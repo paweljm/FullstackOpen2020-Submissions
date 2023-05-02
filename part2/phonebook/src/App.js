@@ -13,7 +13,7 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault()
-    setPersons([...persons, { name: newName }])
+    persons.some(person => person.name === newName) ? alert(`${newName} is already added to phonebook`) : setPersons([...persons, { name: newName }])
     setNewName('')
   }
 
