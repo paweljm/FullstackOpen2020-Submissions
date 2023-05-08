@@ -20,6 +20,16 @@ const App = () => {
       })
   }, [])
 
+  const deletePerson = (id, name) => {
+    console.log(id,name)
+    if(window.confirm(`Delete ${name} ?`)){
+      personsService
+      .deleteItem(id)
+      .then(setPersons(persons.filter(person => person.id != id)))
+      .catch(error => alert(`The person ${name} has already been deleted from the server`))
+    }
+  }
+
   const handleNameChange = (event) => {
     console.log(event.target.value)
     setNewName(event.target.value)
@@ -41,14 +51,14 @@ const App = () => {
       alert(`${newName} is already added to phonebook`)
     }
     else{
-      axios
-      .post('http://localhost:3001/persons', newPerson)
-      .then(response => {
-        console.log(response.data)
-        setPersons([...persons, { name: newName, number: newNumber }])        
-        setNewName('')
-        setNewNumber('')
-      })
+      personsService
+        .create(newPerson)
+        .then(returnedPerson => {
+          console.log(returnedPerson)
+          setPersons([...persons, { name: returnedPerson.name, number: returnedPerson.number, id: returnedPerson.id }])        
+          setNewName('')
+          setNewNumber('')
+        })
     }
     
   }
@@ -71,7 +81,11 @@ const App = () => {
         submitHandler={addPerson}
       />
       <h3>Numbers</h3>
-      <Persons persons={persons} search={search} />
+      <Persons 
+        persons={persons} 
+        search={search}
+        deleteHandler={deletePerson}
+      />
     </div>
   )
 }
