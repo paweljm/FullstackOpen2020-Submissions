@@ -29,11 +29,37 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  // const addPerson = (event) => {
+  //   event.preventDefault()
+  //   persons.some(person => person.name === newName) ? alert(`${newName} is already added to phonebook`) : setPersons([...persons, { name: newName, number: newNumber }])
+  //   setNewName('')
+  //   setNewNumber('')
+  // }
+  // const createPerson = (event) => {
+  //   console.log()
+  // }
+
   const addPerson = (event) => {
     event.preventDefault()
-    persons.some(person => person.name === newName) ? alert(`${newName} is already added to phonebook`) : setPersons([...persons, { name: newName, number: newNumber }])
-    setNewName('')
-    setNewNumber('')
+    const newPerson = { 
+      name: newName,
+      number: newNumber 
+    }
+    console.log(newPerson)
+    if(persons.some(person => person.name === newName)){
+      alert(`${newName} is already added to phonebook`)
+    }
+    else{
+      axios
+      .post('http://localhost:3001/persons', newPerson)
+      .then(response => {
+        console.log(response.data)
+        setPersons([...persons, { name: newName, number: newNumber }])        
+        setNewName('')
+        setNewNumber('')
+      })
+    }
+    
   }
 
   const handleSearch = (event) => {
