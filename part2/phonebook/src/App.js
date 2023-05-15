@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personsService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState()
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     personsService
@@ -52,6 +53,12 @@ const App = () => {
         personsService
           .update(persons.find(person => person.name == newName).id, newPerson)
           .then(returnedPerson => {
+            setErrorMessage(
+              `Updated ${returnedPerson.name}`
+            )
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
             console.log(returnedPerson)
             setPersons(persons.map(person => person.id == returnedPerson.id ? returnedPerson : person))
           })
@@ -62,6 +69,12 @@ const App = () => {
         .create(newPerson)
         .then(returnedPerson => {
           console.log(returnedPerson)
+          setErrorMessage(
+            `Added ${returnedPerson.name}`
+          )
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
           setPersons([...persons, { name: returnedPerson.name, number: returnedPerson.number, id: returnedPerson.id }])        
           setNewName('')
           setNewNumber('')
@@ -78,6 +91,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={errorMessage} />
       <Filter changeHandler={handleSearch} />
       <h3>Add a new</h3>
       <PersonForm
